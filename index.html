@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+  <head>
+    <title>JS1k, 1k demo submission [ID]</title>
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <canvas id="c"></canvas>
+    <script>
+      var b = document.body;
+      var c = document.getElementsByTagName('canvas')[0];
+      var a = c.getContext('2d');
+      document.body.clientWidth; // fix bug in webkit: http://qfox.nl/weblog/218
+    </script>
+    <script>
+    W = (w = c.width  = innerWidth)/2;
+    H = (h = c.height = innerHeight)/2;
+
+    M = Math;
+
+    function heart(x,y) {
+       return M.pow(x*x + y*y - 1,3) - x*x*y*y*y < 0;
+    }
+
+    /* Proper mod function */
+    function mod(x,m) {
+      var r = x % m;
+      return r < 0 ? r + m : r;
+    }
+
+    function tile(w,f) {
+      return function(x,y) {
+        var sx = x > 0 ? -1 : 1, sy = y > 0 ? -1 : 1;
+        return f(mod(x,w*2) - w, mod(y,w*2) - w);
+      }
+    }
+
+    function heartLimit(f) {
+      return function(x,y) {
+       var sx = (x > 0 ? 1 : (-1)), sy = (y > 0 ? 1 : (-1)),
+           d = x*x+y*y - sy*M.pow(x*x*y*y*y*sy,0.333333),
+           d_ = 1/(1-M.pow(d,1/2000)), t = M.atan(M.abs(y)/M.abs(x)), t_;
+       if (x < 0 && y > 0)      { t_ = M.PI - t}
+       else if (x < 0 && y < 0) { t_ = t + M.PI; }
+       else if (x > 0 && y < 0) { t_ = - t; }
+       else { t_ = t; }
+       return (d < 1) ? f( d_ * M.cos(t_), d_ * M.sin(t_)) : false;
+      }
+    }
+
+    function scale(s,f) {
+      return function(x,y) {
+        return f(x/s,y/s);
+      }
+    }
+
+
+    function render(f) {
+      for (y=H;y>-H;y--) {
+        j = H - y;
+        i=0;
+        m = false;
+        while (i < w) {
+          a.beginPath();
+          a.moveTo(i,j);
+          for(;(f(i-W,y)===m)&&(i<w);i++);
+          a.strokeStyle = (m ? "#660000" : "#FFFFFF");
+          a.lineTo(i,j);
+          a.stroke();
+          m = !m;
+        }
+      }
+   }
+
+       h1 = scale(80, heart);
+       h2 = tile(100,h1);
+       h3 = scale(80, heartLimit(h2));
+       h4 = tile(100,h3);
+       h5 = scale(3000, heartLimit(h4));
+       h6 = tile(100, h5);
+       h7 = scale(3000, heartLimit(h6));
+       render(h1);
+
+    </script>
+  </body>
+</html>
+
