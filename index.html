@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>JS1k, 1k demo submission [ID]</title>
+    <title>Alef you - @seanseefried</title>
     <meta charset="utf-8" />
   </head>
   <body>
@@ -13,14 +13,12 @@
       document.body.clientWidth; // fix bug in webkit: http://qfox.nl/weblog/218
     </script>
     <script>
-    W = (w = c.width  = innerWidth)/2;
-    H = (h = c.height = innerHeight)/2;
-
+    W = (w = c.width  = 400)/2;
+    H = (h = ((c.height = 360)-60))/2;
     M = Math;
 
-    function heart(x,y) {
-       return M.pow(x*x + y*y - 1,3) - x*x*y*y*y < 0;
-    }
+    T = true;
+    F = false;
 
     /* Proper mod function */
     function mod(x,m) {
@@ -39,12 +37,12 @@
       return function(x,y) {
        var sx = (x > 0 ? 1 : (-1)), sy = (y > 0 ? 1 : (-1)),
            d = x*x+y*y - sy*M.pow(x*x*y*y*y*sy,0.333333),
-           d_ = 1/(1-M.pow(d,1/2000)), t = M.atan(M.abs(y)/M.abs(x)), t_;
+           d_ = 1/(1-M.pow(d,1/125)), t = M.atan(M.abs(y)/M.abs(x)), t_;
        if (x < 0 && y > 0)      { t_ = M.PI - t}
        else if (x < 0 && y < 0) { t_ = t + M.PI; }
        else if (x > 0 && y < 0) { t_ = - t; }
        else { t_ = t; }
-       return (d < 1) ? f( d_ * M.cos(t_), d_ * M.sin(t_)) : false;
+       return (d < 1) ? f( d_ * M.cos(t_), d_ * M.sin(t_)) : F;
       }
     }
 
@@ -54,33 +52,83 @@
       }
     }
 
+    function pan(dx,dy,f) {
+      return function(x,y) {
+        return f(x + dx,y+dy);
+      }
+    }
+
+    single = T;
+
+    zoom = 1;
+    dx=dy=0;
+
+    onkeydown = function(e) {
+      z = e.keyCode;
+      c.width = c.width; //clears canvas
+      if (z==187 || z==189) { zoom = 1; dx=dy=0; }
+      if (z==187) {
+        if (single && alef <= 9) {
+          funs.push(fun);
+          fun=tile(h/32,scale(1/16,fun));
+          single=!single;
+        } else if (alef < 9){
+          funs.push(fun);
+          alef++;
+          fun=scale(h/2.5,heartLimit(fun));
+          single=!single;
+        }
+      }
+      if (z==189) {
+        if (single && alef >= 0) { alef--; fun = funs.pop(); single=F; }
+        else if (!single && alef >= -1) {fun = funs.pop(); single=T; }
+
+
+
+      }
+      if (z==39) { dx-=10/zoom; }
+      if (z==37) { dx+=10/zoom; }
+      if (z==38) { dy-=10/zoom; }
+      if (z==40) { dy+=10/zoom; }
+      if (z==190) { zoom*=1.1;}
+      if (z==188) { zoom*=0.9;}
+      render(scale(zoom,pan(dx,dy,fun)));
+    }
+
+    alef = -1;
+    function d2(f) { return M.round(f*100)/100; } // round to 2 decimal places
 
     function render(f) {
+      var i,j,y,m;
       for (y=H;y>-H;y--) {
-        j = H - y;
         i=0;
-        m = false;
+        j = H - y;
+        m = F;
         while (i < w) {
           a.beginPath();
           a.moveTo(i,j);
           for(;(f(i-W,y)===m)&&(i<w);i++);
-          a.strokeStyle = (m ? "#660000" : "#FFFFFF");
+          a.strokeStyle = (m ? "#600" : "#FFF");
           a.lineTo(i,j);
           a.stroke();
           m = !m;
         }
       }
+
+     subs = "₀₁₂₃₄₅₆₇₈₉";
+
+     a.fillStyle = "#000";
+     a.font = "10pt Arial";
+     a.fillText("+ — ← ↑ ↓ → < >",0,h+30);
+     a.fillText("("+d2(dx)+","+d2(dy)+") "+d2(zoom),0,h+20);
+     a.font = "18pt Arial";
+     a.fillText("I ♥ you " + (alef >= 0 ? "ℵ"+subs[alef] : "") +
+                             (single ? "" : " ╳ ∞"), w/2-20,h+30);
+     if (alef>=0) {a.font = "10pt Arial"; a.fillText("(zoom/pan to see)",w/2-20,h+50); }
+
    }
-
-       h1 = scale(80, heart);
-       h2 = tile(100,h1);
-       h3 = scale(80, heartLimit(h2));
-       h4 = tile(100,h3);
-       h5 = scale(3000, heartLimit(h4));
-       h6 = tile(100, h5);
-       h7 = scale(3000, heartLimit(h6));
-       render(h1);
-
+   funs = []; fun = scale(h/2.5, heartLimit(function() {return T;}));
+   lastRender = render(fun);
     </script>
   </body>
 </html>
