@@ -57,12 +57,10 @@
       z=e.keyCode;
 
       K=J*Z;
-      // I completely got rid of all "if"s here and just used ternary operators
       z==190?
         (O&&A<=B?(g.push(f),f=t(h/36,s(16,f)),O=!O):A<B?(g.push(f),A++,f=s(3/h,q(f)),O=!O):F):
       z==188?
         (O&&A>=0?(A--,f=g.pop(),O=F):!O&&A>=-1?(f=g.pop(),O=1):F):
-      // key codes I want to look at are 37-40,188,190
 
       z==37?n+=K:
       z==38?o-=K:
@@ -75,7 +73,6 @@
     };
 
     A=-1;
-//    function D(f){return M.round(f*k)/k;}// round to 2 decimal places
 
     function R(f){
       var i=0;
@@ -90,13 +87,6 @@
      a.font="21pt a";
      a.fillText("+-←↑↓→<>     I♥U"+(A>=0?" ℵ"+U[A]:"")+
                                 (O?"":"╳∞"),0,h-J);
-
-
-//     a.fillText("("+D(n)+","+D(o)+")"+D(Z),0,h+20);
-//     a.fillText(,w/2-20,h+30);
-     // if(!O||A>=0){
-     //     a.font=V;a.fillText("(zoom/pan to see)",w/2-20,h+50);
-     //   }
      }
    g=[];
    f=s(3/h,q(t));//putting 't' here is the biggest hack! A function value is a truth value!
