@@ -18,6 +18,8 @@
     M=Math;
     T=1;//could remove another 3 bytes here.
     var F;
+    k=100;
+    l=255;
 
     function m(x,m){return (x%m+m)%m;}
 
@@ -27,7 +29,7 @@
       }
     }
 
-    function q(f) {
+    function q(f){
       return function(x,y){
         S=(y>0?1:-1);
         X=x*x;Y=y*y;
@@ -41,14 +43,14 @@
       }
     }
 
-    function s(s,f) {
-      return function(x,y) {
+    function s(s,f){
+      return function(x,y){
         return f(x/s,y/s);
       }
     }
 
-    function P(dx,dy,f) {
-      return function(x,y) {
+    function P(dx,dy,f){
+      return function(x,y){
         return f(x + dx,y+dy);
       }
     }
@@ -58,45 +60,44 @@
     dx=dy=0;
     B=3;
 
-    onkeydown=function(e) {
+    onkeydown=function(e){
       z=e.keyCode;
       c.width=w;//clears canvas
-      if (z==187||z==189||z==61||z==109){ Z = 1; dx=dy=0; }
-      if (z==187||z==61) {
-        if (O&&A<=B){
-          funs.push(f);
+      if(z==187||z==189||z==61||z==109){ Z = 1; dx=dy=0;}
+      if(z==187||z==61){
+        if(O&&A<=B){
+          g.p(f);
           f=t(h/32,s(1/16,f));
           O=!O;
-        } else if (A < B){
-          funs.push(f);
+        } else if(A < B){
+          g.p(f);
           A++;
           f=s(h/2.5,q(f));
           O=!O;
         }
       }
-      if (z==189||z==109) {
-        if(O&&A>=0){A--;f = funs.pop(); O=F; }
-        else if (!O && A >= -1) {f = funs.pop(); O=T; }
+      if(z==189||z==109){
+        if(O&&A>=0){A--;f=g.q();O=F;}
+        else if(!O&&A>=-1){f=g.q();O=T;}
       }
-      if (z==39) { dx-=10/Z; }
-      if (z==37) { dx+=10/Z; }
-      if (z==38) { dy-=10/Z; }
-      if (z==40) { dy+=10/Z; }
-      if (z==190) { Z*=1.1;}
-      if (z==188) { Z*=0.9;}
-      render(s(Z,P(dx,dy,f)));
+      if(z==39){dx-=10/Z;}
+      if(z==37){dx+=10/Z;}
+      if(z==38){dy-=10/Z;}
+      if(z==40){dy+=10/Z;}
+      if(z==190){Z*=1.1;}
+      if(z==188){Z*=0.9;}
+      R(s(Z,P(dx,dy,f)));
     }
 
-    A = -1;
-    function d2(f) { return M.round(f*100)/100; } // round to 2 decimal places
+    A=-1;
+    function D(f){return M.round(f*k)/k;} // round to 2 decimal places
 
-    function render(f) {
-      var t = (new Date).getTime();
+    function R(f){
       var x,y,i=0;
       var img = a.createImageData(w,h);
       var d = img.data;
-      for (j=0;j<h;j++) {
-        for(x=-W;x<W;x++,i+=4) {
+      for (j=0;j<h;j++){
+        for(x=-W;x<W;x++,i+=4){
           f(x,H-j)?d[i]=160:(d[i]=255,d[i+1]=255,d[i+2]=255);
           d[i+3] = 255;
         }
@@ -106,16 +107,17 @@
      subs = "₀₁₂₃₄₅₆₇₈₉";
      a.font = "10pt Verdana";
      a.fillText("+ - ← ↑ ↓ → < >",0,h+30);
-     a.fillText("("+d2(dx)+","+d2(dy)+") "+d2(Z),0,h+20);
+     a.fillText("("+D(dx)+","+D(dy)+") "+D(Z),0,h+20);
      a.font = "18pt Arial";
      a.fillText("I ♥ you" + (A >= 0 ? " ℵ"+subs[A] : "") +
                              (O ? "" : " ╳ ∞"), w/2-20,h+30);
-     if (!O || A >=0) {
+     if(!O || A >=0){
        a.font = "10pt Arial"; a.fillText("(zoom/pan to see)",w/2-20,h+50);
      }
    }
-   funs = []; f = s(h/2.5, q(function() {return T;}));
-   lastRender = render(f);
+   g=[];g.p=g.push;g.q=g.pop;
+   f=s(h/2.5,q(function(){return T;}));
+   lastRender = R(f);
     </script>
   </body>
 </html>
