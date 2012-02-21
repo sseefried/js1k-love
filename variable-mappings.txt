@@ -7,12 +7,12 @@ f   fun
 g   funs (array of funs)
 h   height
 i   i variable for render function R
-j   
+j   j variable for render function R
 k   100
 l   255
 m   mod
-n   
-o
+n   delta x
+o   delta y
 p   angle theta
 q   heartLimit
 r
@@ -33,9 +33,9 @@ F false
 G
 H   h/2
 I   img
-J
-K
-L   AriaL
+J  10
+K  pan constant
+L   
 M   Math
 N
 O  single (is there a single heart or tiled)
@@ -45,7 +45,7 @@ R  render function
 S  sign of y
 T   True
 U  sUbscripts
-V  "Verdana"
+V  
 W   w/2
 X  x*x
 Y  y*y

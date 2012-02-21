@@ -20,8 +20,8 @@
     var F;
     k=100;
     l=255;
-
-    function m(x,m){return (x%m+m)%m;}
+    J=10;
+    function m(x,m){return(x%m+m)%m;}
 
     function t(w,f){
       return function(x,y){
@@ -49,48 +49,52 @@
       }
     }
 
-    function P(dx,dy,f){
+    function P(i,j,f){
       return function(x,y){
-        return f(x+dx,y+dy);
+        return f(x+i,y+j);
       }
     }
 
     O=T;
     Z=1;
-    dx=dy=0;
+    n=o=0;
     B=3;
 
     onkeydown=function(e){
       z=e.keyCode;
       c.width=w;//clears canvas
-      if(z==187||z==189||z==61||z==109){Z=1;dx=dy=0;}
-      if(z==187||z==61){
+      // 188 <, 190 >, 187/61 +, 189/109 - 
+      if(z==188||z==190){Z=1;n=o=0;}
+      if(z==190){
         if(O&&A<=B){
           g.p(f);
           f=t(h/32,s(1/16,f));
-          O=!O;
-        } else if(A<B){
+          O=!O
+        }else if(A<B){
           g.p(f);
           A++;
           f=s(h/2.5,q(f));
-          O=!O;
+          O=!O
         }
       }
-      if(z==189||z==109){
-        if(O&&A>=0){A--;f=g.q();O=F;}
-        else if(!O&&A>=-1){f=g.q();O=T;}
+      if(z==188){
+        if(O&&A>=0){A--;f=g.q();O=F}
+        else if(!O&&A>=-1){f=g.q();O=T}
       }
-      if(z==39){dx-=10/Z;}
-      if(z==37){dx+=10/Z;}
-      if(z==38){dy-=10/Z;}
-      if(z==40){dy+=10/Z;}
-      if(z==190){Z*=1.1;}
-      if(z==188){Z*=0.9;}
-      R(s(Z,P(dx,dy,f)));
+      // key codes I want to look at are 37-40,188,190
+      K=J/Z;
+      if(z==37){n+=K;}
+      if(z==38){o-=K;}
+      if(z==39){n-=K;}
+      if(z==40){o+=K;}
+      if(z==189||z==109){Z*=0.9;}
+      if(z==187||z==61){Z*=1.1;}
+
+      R(s(Z,P(n,o,f)))
     }
 
     A=-1;
-    function D(f){return M.round(f*k)/k;}// round to 2 decimal places
+//    function D(f){return M.round(f*k)/k;}// round to 2 decimal places
 
     function R(f){
       var i=0;
@@ -105,15 +109,14 @@
      a.putImageData(I,0,0);
 
      U="₀₁₂₃";
-     a.font=V="10pt Verdana";
-     a.fillText("+-←↑↓→<>",0,h+35);
-     a.fillText("("+D(dx)+","+D(dy)+")"+D(Z),0,h+20);
-     a.font=L="18pt Arial";
-     a.fillText("I ♥ you"+(A>=0?" ℵ"+U[A]:"")+
-                          (O?"":" ╳ ∞"),w/2-20,h+30);
-     if(!O||A>=0){
-         a.font=V;a.fillText("(zoom/pan to see)",w/2-20,h+50);
-       }
+     a.font="18pt Arial";
+     a.fillText("+-←↑↓→<>   I♥U"+(A>=0?" ℵ"+U[A]:"")+
+                           (O?"":"╳∞"),0,h+30);
+//     a.fillText("("+D(n)+","+D(o)+")"+D(Z),0,h+20);
+//     a.fillText(,w/2-20,h+30);
+     // if(!O||A>=0){
+     //     a.font=V;a.fillText("(zoom/pan to see)",w/2-20,h+50);
+     //   }
      }
    g=[];g.p=g.push;g.q=g.pop;
    f=s(h/2.5,q(t));//putting 't' here is the biggest hack! A function value is a truth value!
