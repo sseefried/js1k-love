@@ -11,13 +11,13 @@ j   j variable for render function R
 k   100
 l   255
 m   mod
-n   delta x
-o   delta y
+n   pan delta x
+o   pan delta y
 p   angle theta
-q   heartLimit
+q   heartLimit function
 r
-s   scale
-t   tile
+s   scale function
+t   tile function
 u
 v   pixel buffer vector
 w   width
@@ -28,25 +28,25 @@ A  alef
 B  max alef value (3)
 C
 D  round to two decimal places function
-E
+E  
 F false
 G
 H   h/2
 I   img
 J  10
 K  pan constant
-L   
-M   Math
+L  
+M  Math
 N
 O  single (is there a single heart or tiled)
 P  pan function
 Q
 R  render function
 S  sign of y
-T   True
-U  sUbscripts
+T 
+U  
 V  
-W   w/2
+W  w/2
 X  x*x
 Y  y*y
 Z  zoom

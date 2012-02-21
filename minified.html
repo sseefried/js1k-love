@@ -14,84 +14,70 @@
     </script>
 <!--start--><script>
     W=(w=c.width=400)/2;
-    H=(h=((c.height=360)-60))/2;
+    H=(h=(c.height=360)-60)/2;
     M=Math;
-    T=1;//could remove another 3 bytes here.
     var F;
     k=100;
     l=255;
     J=10;
-    function m(x,m){return(x%m+m)%m;}
 
-    function t(w,f){
-      return function(x,y){
-        return f(m(x,w*2)-w,m(y,w*2)-w);
-      }
-    }
+    // if(x<0&&y>0)p=M.PI-p;\
+    // if(x<0&&y<0)p=p+M.PI;\
+    // if(x>0&&y<0)p=-p;\
 
-    function q(f){
-      return function(x,y){
-        S=(y>0?1:-1);
-        X=x*x;Y=y*y;
-        d=X+Y-S*M.pow(X*Y*y*S,1/3);
-        e=1/(1-M.pow(d,1/125));
-        p=M.atan(M.abs(y/x));
-        if(x<0&&y>0){p=M.PI-p}
-        if(x<0&&y<0){p=p+M.PI}
-        if(x>0&&y<0){p=-p}
-        return(d<1)?f(e*M.cos(p),e*M.sin(p)):F;
-      }
-    }
 
-    function s(s,f){
-      return function(x,y){
-        return f(x/s,y/s);
-      }
-    }
-
-    function P(i,j,f){
-      return function(x,y){
-        return f(x+i,y+j);
-      }
-    }
-
-    O=T;
+    eval("@t(w,f){\
+            #@(x,y){\
+               #f(m(x,w*2)-w,m(y,w*2)-w);}\
+            }\
+\
+    @m(x,m){#(x%m+m)%m;}\
+\
+    @q(f){\
+      #@(x,y){\
+        S=(y>0?1:-1);\
+        X=x*x;Y=y*y;\
+        d=X+Y-S*M.pow(X*Y*y*S,1/3);\
+        e=1/(1-M.pow(d,.01));\
+        p=M.atan(M.abs(y/x));\
+        #(d<1)?f(e*M.cos(p),e*M.sin(p)):F\
+      }\
+    }\
+\
+    @s(s,f){\
+      #@(x,y){\
+        #f(x*s,y*s)\
+      }\
+    }\
+\
+    @P(i,j,f){\
+      #@(x,y){\
+        #f(x+i,y+j)\
+      }\
+    }".replace(/@/g,"function ").replace(/#/g,"return "));
+    O=1;
     Z=1;
     n=o=0;
     B=3;
-
     onkeydown=function(e){
       z=e.keyCode;
-      c.width=w;//clears canvas
-      // 188 <, 190 >, 187/61 +, 189/109 - 
-      if(z==188||z==190){Z=1;n=o=0;}
-      if(z==190){
-        if(O&&A<=B){
-          g.p(f);
-          f=t(h/32,s(1/16,f));
-          O=!O
-        }else if(A<B){
-          g.p(f);
-          A++;
-          f=s(h/2.5,q(f));
-          O=!O
-        }
-      }
-      if(z==188){
-        if(O&&A>=0){A--;f=g.q();O=F}
-        else if(!O&&A>=-1){f=g.q();O=T}
-      }
-      // key codes I want to look at are 37-40,188,190
+//      if(z==188||z==190)Z=1,n=o=0;
       K=J/Z;
-      if(z==37){n+=K;}
-      if(z==38){o-=K;}
-      if(z==39){n-=K;}
-      if(z==40){o+=K;}
-      if(z==189||z==109){Z*=0.9;}
-      if(z==187||z==61){Z*=1.1;}
+      z==190?
+        (O&&A<=B?(g.push(f),f=t(h/36,s(16,f)),O=!O):A<B?(g.push(f),A++,f=s(3/h,q(f)),O=!O):F):
+      z==188?
+        (O&&A>=0?(A--,f=g.pop(),O=F):!O&&A>=-1?(f=g.pop(),O=1):F):
+      // key codes I want to look at are 37-40,188,190
+
+      z==37?n+=K:
+      z==38?o-=K:
+      z==39?n-=K:
+      z==40?o+=K:
+      z==189||z==109?Z*=1.1:
+      z==187||z==61?Z*=0.9:F;
 
       R(s(Z,P(n,o,f)))
-    }
+    };
 
     A=-1;
 //    function D(f){return M.round(f*k)/k;}// round to 2 decimal places
@@ -108,9 +94,8 @@
       }
      a.putImageData(I,0,0);
 
-     U="₀₁₂₃";
-     a.font="18pt Arial";
-     a.fillText("+-←↑↓→<>   I♥U"+(A>=0?" ℵ"+U[A]:"")+
+     a.font="18pt arial";
+     a.fillText("+-←↑↓→<>   I♥U"+(A>=0?" ℵ"+A:"")+
                            (O?"":"╳∞"),0,h+30);
 //     a.fillText("("+D(n)+","+D(o)+")"+D(Z),0,h+20);
 //     a.fillText(,w/2-20,h+30);
@@ -118,8 +103,8 @@
      //     a.font=V;a.fillText("(zoom/pan to see)",w/2-20,h+50);
      //   }
      }
-   g=[];g.p=g.push;g.q=g.pop;
-   f=s(h/2.5,q(t));//putting 't' here is the biggest hack! A function value is a truth value!
+   g=[];
+   f=s(3/h,q(t));//putting 't' here is the biggest hack! A function value is a truth value!
    R(f);
     </script>
   </body>
