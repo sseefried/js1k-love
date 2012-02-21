@@ -1,0 +1,122 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Alef you - @seanseefried</title>
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <canvas id="c"></canvas>
+    <script>
+      var b = document.body;
+      var c = document.getElementsByTagName('canvas')[0];
+      var a = c.getContext('2d');
+      document.body.clientWidth; // fix bug in webkit: http://qfox.nl/weblog/218
+    </script>
+<!--start--><script>
+    W=(w=c.width=400)/2;
+    H=(h=((c.height=360)-60))/2;
+    M=Math;
+    T=1;//could remove another 3 bytes here.
+    var F;
+
+    function m(x,m){return (x%m+m)%m;}
+
+    function t(w,f){
+      return function(x,y){
+        return f(m(x,w*2)-w,m(y,w*2)-w);
+      }
+    }
+
+    function q(f) {
+      return function(x,y){
+        S=(y>0?1:-1);
+        X=x*x;Y=y*y;
+        d=X+Y-S*M.pow(X*Y*y*S,1/3);
+        e=1/(1-M.pow(d,1/125));
+        p=M.atan(M.abs(y/x));
+        if(x<0&&y>0){p=M.PI-p}
+        if(x<0&&y<0){p=p+M.PI}
+        if(x>0&&y<0){p=-p}
+        return(d<1)?f(e*M.cos(p),e*M.sin(p)):F;
+      }
+    }
+
+    function s(s,f) {
+      return function(x,y) {
+        return f(x/s,y/s);
+      }
+    }
+
+    function P(dx,dy,f) {
+      return function(x,y) {
+        return f(x + dx,y+dy);
+      }
+    }
+
+    O=T;
+    Z=1;
+    dx=dy=0;
+    B=3;
+
+    onkeydown=function(e) {
+      z=e.keyCode;
+      c.width=w;//clears canvas
+      if (z==187||z==189||z==61||z==109){ Z = 1; dx=dy=0; }
+      if (z==187||z==61) {
+        if (O&&A<=B){
+          funs.push(f);
+          f=t(h/32,s(1/16,f));
+          O=!O;
+        } else if (A < B){
+          funs.push(f);
+          A++;
+          f=s(h/2.5,q(f));
+          O=!O;
+        }
+      }
+      if (z==189||z==109) {
+        if(O&&A>=0){A--;f = funs.pop(); O=F; }
+        else if (!O && A >= -1) {f = funs.pop(); O=T; }
+      }
+      if (z==39) { dx-=10/Z; }
+      if (z==37) { dx+=10/Z; }
+      if (z==38) { dy-=10/Z; }
+      if (z==40) { dy+=10/Z; }
+      if (z==190) { Z*=1.1;}
+      if (z==188) { Z*=0.9;}
+      render(s(Z,P(dx,dy,f)));
+    }
+
+    A = -1;
+    function d2(f) { return M.round(f*100)/100; } // round to 2 decimal places
+
+    function render(f) {
+      var t = (new Date).getTime();
+      var x,y,i=0;
+      var img = a.createImageData(w,h);
+      var d = img.data;
+      for (j=0;j<h;j++) {
+        for(x=-W;x<W;x++,i+=4) {
+          f(x,H-j)?d[i]=160:(d[i]=255,d[i+1]=255,d[i+2]=255);
+          d[i+3] = 255;
+        }
+      }
+     a.putImageData(img,0,0);
+
+     subs = "₀₁₂₃₄₅₆₇₈₉";
+     a.font = "10pt Verdana";
+     a.fillText("+ - ← ↑ ↓ → < >",0,h+30);
+     a.fillText("("+d2(dx)+","+d2(dy)+") "+d2(Z),0,h+20);
+     a.font = "18pt Arial";
+     a.fillText("I ♥ you" + (A >= 0 ? " ℵ"+subs[A] : "") +
+                             (O ? "" : " ╳ ∞"), w/2-20,h+30);
+     if (!O || A >=0) {
+       a.font = "10pt Arial"; a.fillText("(zoom/pan to see)",w/2-20,h+50);
+     }
+   }
+   funs = []; f = s(h/2.5, q(function() {return T;}));
+   lastRender = render(f);
+    </script>
+  </body>
+</html>
+
