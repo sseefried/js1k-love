@@ -19,12 +19,6 @@
     var F;
     J=10;
 
-    // Angle corrections. Not really necessary.
-    // if(x<0&&y>0)p=M.PI-p;\
-    // if(x<0&&y<0)p=p+M.PI;\
-    // if(x>0&&y<0)p=-p;\
-
-
     eval("@t(w,f){\
             #@(x,y){\
                #f(m(x,w*2)-w,m(y,w*2)-w);}\
@@ -38,7 +32,8 @@
         X=x*x;Y=y*y;\
         d=X+Y-S*M.pow(X*Y*y*S,1/3);\
         e=1/(1-M.pow(d,.01));\
-        p=M.atan(M.abs(y/x));\
+        p=M.atan(y/x);\
+        if(x<0)p=p+M.PI;\
         #(d<1)?f(e*M.cos(p),e*M.sin(p)):F\
       }\
     }\
@@ -91,9 +86,10 @@
           f(x,H-j)?(v[i]=H,v[i+3]=255):F;
      a.putImageData(I,0,0);
 
+     U="₀₁₂₃";
      a.font="21pt a";
-     a.fillText("+-←↑↓→<>     I♥U"+(A>=0?" ℵ"+A:"")+
-                                (O?"":"╳∞"),0,h-10);
+     a.fillText("+-←↑↓→<>     I♥U"+(A>=0?" ℵ"+U[A]:"")+
+                                (O?"":"╳∞"),0,h-J);
 
 
 //     a.fillText("("+D(n)+","+D(o)+")"+D(Z),0,h+20);
@@ -104,7 +100,7 @@
      }
    g=[];
    f=s(3/h,q(t));//putting 't' here is the biggest hack! A function value is a truth value!
-   R(f);
+   R(f)
     </script>
   </body>
 </html>
