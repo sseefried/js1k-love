@@ -51,7 +51,7 @@
 
     function P(dx,dy,f){
       return function(x,y){
-        return f(x + dx,y+dy);
+        return f(x+dx,y+dy);
       }
     }
 
@@ -63,13 +63,13 @@
     onkeydown=function(e){
       z=e.keyCode;
       c.width=w;//clears canvas
-      if(z==187||z==189||z==61||z==109){ Z = 1; dx=dy=0;}
+      if(z==187||z==189||z==61||z==109){Z=1;dx=dy=0;}
       if(z==187||z==61){
         if(O&&A<=B){
           g.p(f);
           f=t(h/32,s(1/16,f));
           O=!O;
-        } else if(A < B){
+        } else if(A<B){
           g.p(f);
           A++;
           f=s(h/2.5,q(f));
@@ -90,34 +90,34 @@
     }
 
     A=-1;
-    function D(f){return M.round(f*k)/k;} // round to 2 decimal places
+    function D(f){return M.round(f*k)/k;}// round to 2 decimal places
 
     function R(f){
-      var x,y,i=0;
-      var img = a.createImageData(w,h);
-      var d = img.data;
+      var i=0;
+      I=a.createImageData(w,h);
+      v=I.data;
       for (j=0;j<h;j++){
         for(x=-W;x<W;x++,i+=4){
-          f(x,H-j)?d[i]=160:(d[i]=255,d[i+1]=255,d[i+2]=255);
-          d[i+3] = 255;
+          f(x,H-j)?v[i]=160:(v[i]=l,v[i+1]=l,v[i+2]=l);
+          v[i+3]=l;
         }
       }
-     a.putImageData(img,0,0);
+     a.putImageData(I,0,0);
 
-     subs = "₀₁₂₃₄₅₆₇₈₉";
-     a.font = "10pt Verdana";
-     a.fillText("+ - ← ↑ ↓ → < >",0,h+30);
-     a.fillText("("+D(dx)+","+D(dy)+") "+D(Z),0,h+20);
-     a.font = "18pt Arial";
-     a.fillText("I ♥ you" + (A >= 0 ? " ℵ"+subs[A] : "") +
-                             (O ? "" : " ╳ ∞"), w/2-20,h+30);
-     if(!O || A >=0){
-       a.font = "10pt Arial"; a.fillText("(zoom/pan to see)",w/2-20,h+50);
+     U="₀₁₂₃";
+     a.font=V="10pt Verdana";
+     a.fillText("+-←↑↓→<>",0,h+35);
+     a.fillText("("+D(dx)+","+D(dy)+")"+D(Z),0,h+20);
+     a.font=L="18pt Arial";
+     a.fillText("I ♥ you"+(A>=0?" ℵ"+U[A]:"")+
+                          (O?"":" ╳ ∞"),w/2-20,h+30);
+     if(!O||A>=0){
+         a.font=V;a.fillText("(zoom/pan to see)",w/2-20,h+50);
+       }
      }
-   }
    g=[];g.p=g.push;g.q=g.pop;
-   f=s(h/2.5,q(function(){return T;}));
-   lastRender = R(f);
+   f=s(h/2.5,q(t));//putting 't' here is the biggest hack! A function value is a truth value!
+   R(f);
     </script>
   </body>
 </html>

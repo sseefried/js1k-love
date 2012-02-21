@@ -1,0 +1,56 @@
+a   canvas context
+b   body
+c   canvas
+d   distance to center of heart
+e   new distance to center of heart
+f   fun
+g   funs (array of funs)
+h   height
+i   i variable for render function R
+j   
+k   100
+l   255
+m   mod
+n   
+o
+p   angle theta
+q   heartLimit
+r
+s   scale
+t   tile
+u
+v   pixel buffer vector
+w   width
+x   x variable for render function R
+y   y variable for render function R
+z
+A  alef
+B  max alef value (3)
+C
+D  round to two decimal places function
+E
+F false
+G
+H   h/2
+I   img
+J
+K
+L   AriaL
+M   Math
+N
+O  single (is there a single heart or tiled)
+P  pan function
+Q
+R  render function
+S  sign of y
+T   True
+U  sUbscripts
+V  "Verdana"
+W   w/2
+X  x*x
+Y  y*y
+Z  zoom
+
+
+g.p = g.push
+g.q = g.pop
