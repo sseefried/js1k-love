@@ -14,13 +14,12 @@
     </script>
 <!--start--><script>
     W=(w=c.width=400)/2;
-    H=(h=(c.height=360)-60)/2;
+    H=(h=c.height=360)/2;
     M=Math;
     var F;
-    k=100;
-    l=255;
     J=10;
 
+    // Angle corrections. Not really necessary.
     // if(x<0&&y>0)p=M.PI-p;\
     // if(x<0&&y<0)p=p+M.PI;\
     // if(x>0&&y<0)p=-p;\
@@ -31,7 +30,7 @@
                #f(m(x,w*2)-w,m(y,w*2)-w);}\
             }\
 \
-    @m(x,m){#(x%m+m)%m;}\
+    @m(x,m){#(x%m+m)%m}\
 \
     @q(f){\
       #@(x,y){\
@@ -61,8 +60,9 @@
     B=3;
     onkeydown=function(e){
       z=e.keyCode;
-//      if(z==188||z==190)Z=1,n=o=0;
-      K=J/Z;
+
+      K=J*Z;
+      // I completely got rid of all "if"s here and just used ternary operators
       z==190?
         (O&&A<=B?(g.push(f),f=t(h/36,s(16,f)),O=!O):A<B?(g.push(f),A++,f=s(3/h,q(f)),O=!O):F):
       z==188?
@@ -74,7 +74,7 @@
       z==39?n-=K:
       z==40?o+=K:
       z==189||z==109?Z*=1.1:
-      z==187||z==61?Z*=0.9:F;
+      z==187||z==61?Z*=.9:F;
 
       R(s(Z,P(n,o,f)))
     };
@@ -86,17 +86,16 @@
       var i=0;
       I=a.createImageData(w,h);
       v=I.data;
-      for (j=0;j<h;j++){
-        for(x=-W;x<W;x++,i+=4){
-          f(x,H-j)?v[i]=160:(v[i]=l,v[i+1]=l,v[i+2]=l);
-          v[i+3]=l;
-        }
-      }
+      for (j=0;j<h-40;j++)
+        for(x=-W;x<W;x++,i+=4)
+          f(x,H-j)?(v[i]=H,v[i+3]=255):F;
      a.putImageData(I,0,0);
 
-     a.font="18pt arial";
-     a.fillText("+-←↑↓→<>   I♥U"+(A>=0?" ℵ"+A:"")+
-                           (O?"":"╳∞"),0,h+30);
+     a.font="21pt a";
+     a.fillText("+-←↑↓→<>     I♥U"+(A>=0?" ℵ"+A:"")+
+                                (O?"":"╳∞"),0,h-10);
+
+
 //     a.fillText("("+D(n)+","+D(o)+")"+D(Z),0,h+20);
 //     a.fillText(,w/2-20,h+30);
      // if(!O||A>=0){

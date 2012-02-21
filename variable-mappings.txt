@@ -8,7 +8,6 @@ g   funs (array of funs)
 h   height
 i   i variable for render function R
 j   j variable for render function R
-k   100
 l   255
 m   mod
 n   pan delta x
