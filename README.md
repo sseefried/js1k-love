@@ -1,0 +1,3 @@
+```
+% ./minify.rb minified.html
+```

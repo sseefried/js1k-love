@@ -101,9 +101,21 @@
       var x,y,i=0;
       var img = a.createImageData(w,h);
       var d = img.data;
+      p = 1/zoom/200;
+      console.log(p);
       for (j=0;j<h;j++) {
+        avg = 0;
         for(x=-W;x<W;x++,i+=4) {
-          f(x,H-j)?d[i]=160:(d[i]=255,d[i+1]=255,d[i+2]=255);
+          // average nearby
+
+          avg = (f(x+p,H-j) + f(x,H-j-p)+ f(x+p,H-j) + f(x-p,H-j)) / 4;
+//          avg = f(x,H-j);
+          if (avg > 0 ) {
+            d[i] = 160*avg;
+          } else {
+            d[i]=255,d[i+1]=255,d[i+2]=255
+          }
+//          f(x,H-j)?d[i]=160:(d[i]=255,d[i+1]=255,d[i+2]=255);
           d[i+3] = 255;
         }
       }

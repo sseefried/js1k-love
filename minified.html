@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>Alef you - @seanseefried</title>
+    <title>Aleph you - @seanseefried</title>
     <meta charset="utf-8" />
   </head>
   <body>
@@ -52,15 +52,15 @@
     O=1;
     Z=1;
     n=o=0;
-    B=3;
     onkeydown=function(e){
       z=e.keyCode;
 
       K=J*Z;
       z==190?
-        (O&&A<=B?(g.push(f),f=t(h/36,s(16,f)),O=!O):A<B?(g.push(f),A++,f=s(3/h,q(f)),O=!O):F):
+        (Z=1,o=n=0,O?(g.push(f),f=t(h/36,s(16,f)),O=!O):
+         (g.push(f),A++,f=s(3/h,q(f)),O=!O)):
       z==188?
-        (O&&A>=0?(A--,f=g.pop(),O=F):!O&&A>=-1?(f=g.pop(),O=1):F):
+        (Z=1,o=n=0,O&&A>=0?(A--,f=g.pop(),O=F):!O&&A>=-1?(f=g.pop(),O=1):F):
 
       z==37?n+=K:
       z==38?o-=K:
@@ -83,9 +83,8 @@
           f(x,H-j)?(v[i]=H,v[i+3]=255):F;
      a.putImageData(I,0,0);
 
-     U="₀₁₂₃";
-     a.font="21pt a";
-     a.fillText("+-←↑↓→<>     I♥U"+(A>=0?" ℵ"+U[A]:"")+
+     a.font="19pt a";
+     a.fillText("Press:+-←↑↓→<>     I♥U"+(A>=0?" ℵ"+A:"")+
                                 (O?"":"╳∞"),0,h-J);
      }
    g=[];
