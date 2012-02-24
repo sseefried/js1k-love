@@ -22,13 +22,13 @@ v   pixel buffer vector
 w   width
 x   x variable for render function R
 y   y variable for render function R
-z
-A  alef
-B  max alef value (3)
+z   keycode
+A   alef
+B 
 C
-D  round to two decimal places function
+D  
 E  
-F false
+F  false
 G
 H   h/2
 I   img

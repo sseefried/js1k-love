@@ -28,11 +28,33 @@ footer=%{</script>
 
 oneline= str.gsub(/^[\s]*/,"").
          gsub(/\/\/.*/,"").
+         gsub(/\/\*.*/,"").
          gsub(/\\$/,"").
          gsub(/[\s]*\n/,"").
-
          gsub(/.*<\!--start--><script>/,"").
          gsub(/<\/script><\/body><\/html>/,"")
+
+
+[[ "g", "funs"        ],
+ [ "l", "all"         ],
+ [ "m", "mod"         ],
+ [ "n", "xPan"        ],
+ [ "o", "yPan"        ],
+ [ "p", "theta"       ],
+ [ "q", "heartMap"    ],
+ [ "s", "scale"       ],
+ [ "t", "tile"        ],
+ [ "v", "pixBuf"      ],
+ [ "A", "aleph"       ],
+ [ "I", "img"         ],
+ [ "O", "isOneHeart"  ],
+ [ "P", "pan"         ],
+ [ "R", "render"      ],
+ [ "S", "sgn"         ],
+ [ "Z", "zoom"        ]
+ ].each do |short_name,long_name|
+  oneline = oneline.gsub(/#{long_name}/,short_name)
+end
 
 puts oneline
 
@@ -41,10 +63,11 @@ File.open("/tmp/test.html","w") do |f|
   f.close
 end
 
-# system("scp /tmp/test.html 'mco:/home/sseefried/domains/seanseefried.com/public/js1k/index.html'")
-system('open -a "/Applications/Google Chrome.app" /tmp/test.html')
-
-# (0..str.length - 1).each do |i|
-#   in_string = !in_string if str[i] == "\""[0]
-#   printf("%s",str[i].chr) unless str[i].chr =~ /\s/ && !in_string
-# end
+if ARGV.length >= 2
+  s = ARGV[1]
+  system('open -a "/Applications/Firefox.app" /tmp/test.html') if (s == "-f" || s == "--firefox")
+  system('open -a "/Applications/Google Chrome.app" /tmp/test.html') if (s == "-c" || s == "--chrome")
+  if (s == '-d' || s == '--deploy')
+    system('scp /tmp/test.html mco:/home/sseefried/domains/seanseefried.com/public/js1k/index.html')
+  end
+end
